@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Agent — Gemini + MCP</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="title">
+        <span class="dot"></span>
+        <h1>AI Agent</h1>
+        <span class="subtitle">Gemini &middot; web search &middot; MCP tools</span>
+      </div>
+      <div class="header-actions">
+        <button id="toolsBtn" class="ghost-btn" title="Show available tools">Tools</button>
+        <button id="resetBtn" class="ghost-btn" title="Start a new conversation">Reset</button>
+      </div>
+    </header>
+
+    <main id="messages" class="messages">
+      <div class="empty-state">
+        <p>Ask it to search the web, check the weather, do math, or manage notes (its own MCP server).</p>
+        <div class="suggestions">
+          <button class="suggestion">Save a note titled "ideas" with content "build the UI"</button>
+          <button class="suggestion">What's the weather in Tokyo right now?</button>
+          <button class="suggestion">Search the web for the latest Node.js LTS version</button>
+        </div>
+      </div>
+    </main>
+
+    <form id="composer" class="composer">
+      <textarea id="input" placeholder="Message the agent…" rows="1" autofocus></textarea>
+      <button id="sendBtn" type="submit">Send</button>
+    </form>
+  </div>
+
+  <div id="toolsModal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Available tools</h2>
+        <button id="closeToolsBtn" class="ghost-btn">Close</button>
+      </div>
+      <ul id="toolsList" class="tools-list"></ul>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
