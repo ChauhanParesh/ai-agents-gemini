@@ -1,6 +1,6 @@
 # ai-agent-gemini
 
-Same agent pattern as [`ai-agent`](../ai-agent) — direct API calls, web search, and MCP tool calling in one loop — but with **nothing that requires a paid key**:
+A Node.js AI agent that combines direct API calls, web search, and MCP tool calling in one agentic loop — with **nothing that requires a paid key**:
 
 | Piece | Backend | Cost |
 |---|---|---|
@@ -57,12 +57,12 @@ Gemini's free tier can return `503 UNAVAILABLE` (overloaded) or `429 RESOURCE_EX
 
 You'll see this in the console as `[gemini] ... retrying in ...` / `... falling back to ...` / `... parking it for ...` / `... skipped — ... cooling down ...` lines.
 
-## How it differs from the Claude version
+## Implementation notes
 
-- **LLM client**: [`@google/genai`](https://www.npmjs.com/package/@google/genai) instead of `@anthropic-ai/sdk`. Gemini's function-calling message shape is different from Claude's (tool results go back as a `user`-role turn with `functionResponse` parts, no per-call `id` — see [`src/agentCore.js`](src/agentCore.js)).
+- **LLM client**: [`@google/genai`](https://www.npmjs.com/package/@google/genai). Gemini's function-calling message shape puts tool results back as a `user`-role turn with `functionResponse` parts, with no per-call `id` — see [`src/agentCore.js`](src/agentCore.js).
 - **Tool schema**: Gemini wants JSON Schema with uppercase type names (`STRING`, `OBJECT`, ...) and rejects empty `properties: {}` on no-arg tools. [`src/schemaAdapter.js`](src/schemaAdapter.js) converts our plain JSON Schema tool defs to that shape.
-- **Web search**: Claude's version used Anthropic's native server-side search tool. Gemini's equivalent (Google Search grounding) isn't guaranteed to be free on every account tier, so this version uses a keyless DuckDuckGo scrape instead — see [`src/tools/webSearch.js`](src/tools/webSearch.js).
-- **MCP server and direct API tool are unchanged** — `notesServer.js` and `get_weather` are plain MCP/JSON-Schema, not tied to any LLM provider, so they're reused as-is.
+- **Web search**: Gemini's native Google Search grounding tool isn't guaranteed to be free on every account tier, so this uses a keyless DuckDuckGo scrape instead — see [`src/tools/webSearch.js`](src/tools/webSearch.js).
+- **MCP server and direct API tool are plain MCP / JSON-Schema**, not tied to any specific LLM provider — `notesServer.js` and `get_weather` would work unchanged behind a different LLM client.
 
 ## Project layout
 
